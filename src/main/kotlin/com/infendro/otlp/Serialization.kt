@@ -13,14 +13,14 @@ fun Iterable<SpanData>.toJson(): String {
                 attributes = listOf(
                     Attribute(
                         key = "service.name",
-                        value = StringValue("game-of-life")
+                        value = StringValue("otlp")
                     )
                 )
             ),
             scopeSpans = listOf(
                 ScopeSpans(
                     scope = Scope(
-                        name = "game-of-life",
+                        name = "otlp",
                         version = "1.0.0",
                         attributes = listOf()
                     ),
