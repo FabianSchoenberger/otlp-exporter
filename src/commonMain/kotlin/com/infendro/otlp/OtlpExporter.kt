@@ -6,16 +6,14 @@ import io.ktor.http.*
 import io.opentelemetry.kotlin.sdk.common.CompletableResultCode
 import io.opentelemetry.kotlin.sdk.trace.data.SpanData
 import io.opentelemetry.kotlin.sdk.trace.export.SpanExporter
-import kotlinx.coroutines.runBlocking
 
 class OtlpExporter : SpanExporter {
     override fun export(
         spans: Collection<SpanData>
     ): CompletableResultCode {
-        val payload = spans.toJson()
-        runBlocking {
-            val httpClient = HttpClient()
-            httpClient.post("http://localhost:4318/v1/traces") {
+        execute {
+            val payload = spans.toJson()
+            HttpClient().post("http://localhost:4318/v1/traces") {
                 contentType(ContentType.Application.Json)
                 setBody(payload)
             }
@@ -30,3 +28,5 @@ class OtlpExporter : SpanExporter {
 
     override fun shutdown() = flush()
 }
+
+expect fun execute(block: suspend () -> Unit)

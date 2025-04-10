@@ -1,16 +1,17 @@
 plugins {
-    kotlin("jvm") version "2.1.10"
+    kotlin("multiplatform") version "2.1.20"
     kotlin("plugin.serialization") version "2.1.10"
-    `maven-publish`
+    id("maven-publish")
 }
 
-publishing {
-    publications.create<MavenPublication>("maven") {
-        groupId = "com.infendro"
-        artifactId = "otlp-exporter"
-        version = "1.0.0"
+group = "com.infendro"
+version = "1.0.0"
 
-        from(components["java"])
+publishing {
+    repositories {
+        maven {
+            version = "1.0.0"
+        }
     }
 }
 
@@ -25,11 +26,28 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation("io.opentelemetry.kotlin.api:all:1.0.570")
-    implementation("io.opentelemetry.kotlin.sdk:sdk-trace:1.0.570")
+kotlin {
+    jvm()
+    js()
+    linuxX64()
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    implementation("io.ktor:ktor-client-core:3.1.0")
-    implementation("io.ktor:ktor-client-cio:3.1.0")
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.opentelemetry.kotlin.api:all:1.0.570")
+            implementation("io.opentelemetry.kotlin.sdk:sdk-trace:1.0.570")
+
+            implementation("io.ktor:ktor-client-core:3.1.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+        }
+        jvmMain.dependencies {
+            implementation("io.ktor:ktor-client-cio:3.1.0")
+        }
+        jsMain.dependencies {
+            implementation("io.ktor:ktor-client-js:3.1.0")
+        }
+        linuxMain.dependencies {
+            implementation("io.ktor:ktor-client-curl:3.1.0")
+        }
+    }
 }
