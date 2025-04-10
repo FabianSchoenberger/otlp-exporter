@@ -36,7 +36,7 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
         }
         jvmMain.dependencies {
-            implementation("io.ktor:ktor-client-cio:3.1.0")
+            implementation("io.ktor:ktor-client-java:3.1.0")
         }
         jsMain.dependencies {
             implementation("org.jetbrains.kotlin-wrappers:kotlin-node:2025.4.7-22.13.10")
