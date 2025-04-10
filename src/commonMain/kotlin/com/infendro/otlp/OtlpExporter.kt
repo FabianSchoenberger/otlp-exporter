@@ -6,18 +6,26 @@ import io.ktor.http.*
 import io.opentelemetry.kotlin.sdk.common.CompletableResultCode
 import io.opentelemetry.kotlin.sdk.trace.data.SpanData
 import io.opentelemetry.kotlin.sdk.trace.export.SpanExporter
+import kotlinx.coroutines.*
 
 class OtlpExporter : SpanExporter {
+    private val jobs: MutableList<Job> = mutableListOf()
+
+    suspend fun await() {
+        jobs.joinAll()
+    }
+
     override fun export(
         spans: Collection<SpanData>
     ): CompletableResultCode {
-        execute {
+        val job = CoroutineScope(Dispatchers.Default).launch {
             val payload = spans.toJson()
             HttpClient().post("http://localhost:4318/v1/traces") {
                 contentType(ContentType.Application.Json)
                 setBody(payload)
             }
         }
+        jobs.add(job)
 
         return CompletableResultCode.ofSuccess()
     }
