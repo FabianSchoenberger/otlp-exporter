@@ -7,14 +7,6 @@ plugins {
 group = "com.infendro"
 version = "1.0.0"
 
-publishing {
-    repositories {
-        maven {
-            version = "1.0.0"
-        }
-    }
-}
-
 repositories {
     maven {
         url = uri("https://maven.pkg.github.com/dcxp/opentelemetry-kotlin")
