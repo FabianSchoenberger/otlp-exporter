@@ -6,14 +6,14 @@ import io.opentelemetry.kotlin.sdk.trace.data.SpanData
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-fun Iterable<SpanData>.toJson(): String {
+internal fun Iterable<SpanData>.toJson(): String {
     val resourceSpans = map { span ->
         ResourceSpans(
             resource = Resource(
                 attributes = listOf(
                     Attribute(
                         key = "service.name",
-                        value = StringValue("otlp")
+                        value = StringValue(env("OTLP_SERVICE")!!)
                     )
                 )
             ),
@@ -70,36 +70,36 @@ fun Iterable<SpanData>.toJson(): String {
 }
 
 @Serializable
-data class Payload(
+internal data class Payload(
     val resourceSpans: List<ResourceSpans>
 )
 
 @Serializable
-data class ResourceSpans(
+internal data class ResourceSpans(
     val resource: Resource,
     val scopeSpans: List<ScopeSpans>
 )
 
 @Serializable
-data class Resource(
+internal data class Resource(
     val attributes: List<Attribute>
 )
 
 @Serializable
-data class ScopeSpans(
+internal data class ScopeSpans(
     val scope: Scope,
     val spans: List<Span>
 )
 
 @Serializable
-data class Scope(
+internal data class Scope(
     val name: String,
     val version: String,
     val attributes: List<Attribute>
 )
 
 @Serializable
-data class Span(
+internal data class Span(
     val traceId: String,
     val spanId: String,
     val parentSpanId: String,
@@ -111,13 +111,13 @@ data class Span(
 )
 
 @Serializable
-data class Attribute(
+internal data class Attribute(
     val key: String,
     val value: Value
 )
 
 @Serializable
-sealed class Value {
+internal sealed class Value {
     @Serializable
     data class StringValue(val stringValue: String) : Value()
 

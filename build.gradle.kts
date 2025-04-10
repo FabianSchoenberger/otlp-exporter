@@ -20,7 +20,10 @@ repositories {
 
 kotlin {
     jvm()
-    js()
+    js {
+        nodejs()
+        useCommonJs()
+    }
     linuxX64()
 
     sourceSets {
@@ -36,6 +39,7 @@ kotlin {
             implementation("io.ktor:ktor-client-cio:3.1.0")
         }
         jsMain.dependencies {
+            implementation("org.jetbrains.kotlin-wrappers:kotlin-node:2025.4.7-22.13.10")
             implementation("io.ktor:ktor-client-js:3.1.0")
         }
         linuxMain.dependencies {

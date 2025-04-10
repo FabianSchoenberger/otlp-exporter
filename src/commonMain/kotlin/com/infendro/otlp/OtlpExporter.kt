@@ -28,5 +28,3 @@ class OtlpExporter : SpanExporter {
 
     override fun shutdown() = flush()
 }
-
-expect fun execute(block: suspend () -> Unit)
