@@ -4,7 +4,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.infendro"
+group = "com.infendro.otel"
 version = "1.0.0"
 
 repositories {
