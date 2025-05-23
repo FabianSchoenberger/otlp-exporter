@@ -9,6 +9,7 @@ import io.opentelemetry.kotlin.sdk.trace.export.SpanExporter
 import kotlinx.coroutines.*
 
 class OtlpExporter(
+    val host: String,
     val service: String
 ) : SpanExporter {
     private val jobs: MutableList<Job> = mutableListOf()
@@ -22,7 +23,7 @@ class OtlpExporter(
     ): CompletableResultCode {
         val job = CoroutineScope(Dispatchers.Default).launch {
             val payload = spans.toJson(service)
-            HttpClient().post("http://localhost:4318/v1/traces") {
+            HttpClient().post("http://$host/v1/traces") {
                 contentType(ContentType.Application.Json)
                 setBody(payload)
             }
