@@ -6,14 +6,16 @@ import io.opentelemetry.kotlin.sdk.trace.data.SpanData
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-internal fun Iterable<SpanData>.toJson(): String {
+internal fun Iterable<SpanData>.toJson(
+    service: String
+): String {
     val resourceSpans = map { span ->
         ResourceSpans(
             resource = Resource(
                 attributes = listOf(
                     Attribute(
                         key = "service.name",
-                        value = StringValue(env("OTLP_SERVICE")!!)
+                        value = StringValue(service)
                     )
                 )
             ),

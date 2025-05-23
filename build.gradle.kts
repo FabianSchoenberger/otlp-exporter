@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform") version "2.1.20"
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.20"
     id("maven-publish")
 }
 
@@ -39,7 +39,6 @@ kotlin {
             implementation("io.ktor:ktor-client-java:3.1.0")
         }
         jsMain.dependencies {
-            implementation("org.jetbrains.kotlin-wrappers:kotlin-node:2025.4.7-22.13.10")
             implementation("io.ktor:ktor-client-js:3.1.0")
         }
         linuxMain.dependencies {
